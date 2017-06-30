@@ -196,7 +196,14 @@ public class DrawPanel extends JPanel
                     currentShapeObject= new MyPentagon( event.getX(), event.getY(), 
                     		event.getX(), event.getY(), currentShapeColor, currentShapeFilled);
                     break;
-                	
+                case 5:
+                    currentShapeObject= new MyOpenPolygon( event.getX(), event.getY(), 
+                                                   event.getX(), event.getY(), currentShapeColor, currentShapeFilled);
+                    break;
+                case 6:
+                    currentShapeObject= new MyHexagon( event.getX(), event.getY(), 
+                    		event.getX(), event.getY(), currentShapeColor, currentShapeFilled);
+                    break;
             }// end switch case
           
         } // end method mousePressed
