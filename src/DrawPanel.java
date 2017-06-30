@@ -191,6 +191,12 @@ public class DrawPanel extends JPanel
                 	((List<GeneralPath>) old_paths).add(p);
                 	p.moveTo(event.getX(), event.getY());
                 	repaint();
+                	break;
+                case 4:
+                    currentShapeObject= new MyPentagon( event.getX(), event.getY(), 
+                    		event.getX(), event.getY(), currentShapeColor, currentShapeFilled);
+                    break;
+                	
             }// end switch case
           
         } // end method mousePressed
