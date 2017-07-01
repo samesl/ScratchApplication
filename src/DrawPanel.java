@@ -49,6 +49,8 @@ public class DrawPanel extends JPanel
     
     GeneralPath p = new GeneralPath();
     LinkedList<GeneralPath> old_paths = new LinkedList<GeneralPath>();
+    
+    int lastx, lasty;
 
 
     public DrawPanel(JLabel statusLabel){
@@ -187,10 +189,15 @@ public class DrawPanel extends JPanel
                                                    event.getX(), event.getY(), currentShapeColor, currentShapeFilled);
                     break;          	
                 case 3:
+                	/*
                     p=new GeneralPath();
                 	((List<GeneralPath>) old_paths).add(p);
                 	p.moveTo(event.getX(), event.getY());
-                	repaint();
+                	repaint();*/
+                	currentShapeObject= new MyScribble( event.getX(), event.getY(), 
+                            event.getX(), event.getY(), currentShapeColor);
+                	lastx = event.getX();
+                	lasty = event.getY();
                 	break;
                 case 4:
                     currentShapeObject= new MyPentagon( event.getX(), event.getY(), 
@@ -225,6 +232,10 @@ public class DrawPanel extends JPanel
          */
         public void mouseReleased( MouseEvent event )
         {
+           	//Ted++
+        	if( currentShapeType == 3)
+        		return;
+        	
             //sets currentShapeObject x2 & Y2
             currentShapeObject.setX2(event.getX());
             currentShapeObject.setY2(event.getY());
@@ -255,11 +266,29 @@ public class DrawPanel extends JPanel
             //sets currentShapeObject x2 & Y2
             currentShapeObject.setX2(event.getX());
             currentShapeObject.setY2(event.getY());
+            
+            if(currentShapeType == 3 )
+	        {
+	        	// start drawing from the latest point
+		        currentShapeObject.setX1( currentShapeObject.getX2() );
+		        currentShapeObject.setY1( currentShapeObject.getY2() );
+		        
+		        g.setColor( currentShapeObject.getColor() ); //sets the color
+		        g.drawLine(lastx,lasty,currentShapeObject.getX2(),currentShapeObject.getY2());
+		        myShapes.addFront(currentShapeObject); //addFront currentShapeObject onto myShapes
+		        
+		        lastx = currentShapeObject.getX2();
+		        lasty = currentShapeObject.getY2();
+
+	        }
+
+            
             p.moveTo(event.getX(), event.getY());
             //sets statusLabel to current mouse position
             statusLabel.setText(String.format("Mouse Coordinates X: %d Y: %d",event.getX(),event.getY()));
             
-            repaint();
+            if( currentShapeType != 3) 
+            	repaint();
             
         } // end method mouseDragged
         
