@@ -207,7 +207,11 @@ public class DrawPanel extends JPanel
                 case 7:
                     currentShapeObject= new MyCircle( event.getX(), event.getY(), 
                                                    event.getX(), event.getY(), currentShapeColor, currentShapeFilled);
-                    break;         
+                    break;  
+                case 8:
+                    currentShapeObject= new MySquare( event.getX(), event.getY(), 
+                                                        event.getX(), event.getY(), currentShapeColor, currentShapeFilled);
+                    break;
             }// end switch case
           
         } // end method mousePressed
