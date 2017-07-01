@@ -48,7 +48,7 @@ public class DrawFrame extends JFrame
     
     //array of strings containing shape options for JComboBox shapes
     private String shapeOptions[]=
-    {"Line","Rectangle","Oval","Free line", "Pentagon", "Open Polygon", "Hexagon"};
+    {"Line","Rectangle","Oval","Free line", "Pentagon", "Open Polygon", "Hexagon", "Circle"};
     
     private JCheckBox filled; //checkbox to select whether shape is filled or not
         
