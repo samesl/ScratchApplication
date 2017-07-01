@@ -263,6 +263,7 @@ public class DrawPanel extends JPanel
          */
         public void mouseDragged( MouseEvent event )
         {
+        	Graphics g= getGraphics();
             //sets currentShapeObject x2 & Y2
             currentShapeObject.setX2(event.getX());
             currentShapeObject.setY2(event.getY());
