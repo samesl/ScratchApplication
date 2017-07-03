@@ -26,7 +26,7 @@ public class MyHexagon extends MyBoundedShape
 public void draw( Graphics g )
 {
 	  
-	  int cx = getUpperLeftX(); int cy = getUpperLeftX(); int r = getHeight(); int i;
+	  int cx = getUpperLeftX(); int cy = getUpperLeftY(); int r = getHeight(); int i;
     g.setColor( getColor() ); //sets the color
     if (getFill()) //determines whether fill is true or false
     {
