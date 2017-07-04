@@ -52,6 +52,8 @@ public class DrawFrame extends JFrame
     
     private JCheckBox filled; //checkbox to select whether shape is filled or not
         
+    private JButton select;
+    
     private JPanel widgetJPanel; //holds the widgets: buttons, comboboxes and checkbox
     private JPanel widgetPadder; //encapsulates widgetJPanel and adds padding around the edges 
     
@@ -74,7 +76,7 @@ public class DrawFrame extends JFrame
         undo = new JButton( "Undo" );
         redo = new JButton( "Redo" );
         clear = new JButton( "Clear" );
-        
+        select = new JButton( "Select ");
         //create comboboxes
         colors = new JComboBox( colorOptions );
         shapes = new JComboBox( shapeOptions );
@@ -94,6 +96,7 @@ public class DrawFrame extends JFrame
         widgetJPanel.add( undo );
         widgetJPanel.add( redo );
         widgetJPanel.add( clear );
+        widgetJPanel.add( select );
         widgetJPanel.add( colors );
         widgetJPanel.add( shapes );                 
         widgetJPanel.add( filled );
