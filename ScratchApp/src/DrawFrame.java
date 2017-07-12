@@ -207,4 +207,5 @@ public class DrawFrame extends JFrame
         } // end method itemStateChanged
     }
     
+    
 } // end class DrawFrame
