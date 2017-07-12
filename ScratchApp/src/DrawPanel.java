@@ -83,6 +83,7 @@ public class DrawPanel extends JPanel
         addMouseMotionListener( handler ); 
     }
     
+    
     /**
      * Calls the draw method for the existing shapes.
      */
