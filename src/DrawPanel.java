@@ -1,11 +1,16 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
-
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
@@ -41,7 +46,9 @@ public class DrawPanel extends JPanel
     private int movingMode;        // 1 : activated mode			
     private int cutMode;        // 1 : activated mode			
     private int pasteMode;        // 1 : activated mode
-    
+   
+    private BufferedImage img;
+    private Image backgroundImage;
     
     /**
      * This constructor initializes the dynamic stack for myShapes and clearedShapes.
@@ -88,7 +95,7 @@ public class DrawPanel extends JPanel
     public void paintComponent( Graphics g )
     {
         super.paintComponent( g );
-        
+        g.drawImage(backgroundImage, 0, 0, this);
 
         // draw the shapes
         ArrayList<MyShape> shapeArray=myShapes.getArray();
@@ -250,6 +257,68 @@ public class DrawPanel extends JPanel
     public int GetCurrentMode()			
     {			
     	return this.currentMode;			
+    }
+    
+    //Anjana
+    public void saveFrame(int width,int height)			
+    {			
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        paintComponent(img.getGraphics());
+        JFileChooser jfc = new JFileChooser();
+        FileNameExtensionFilter pngFilter = new FileNameExtensionFilter("PNG Files","png");
+        jfc.addChoosableFileFilter(pngFilter);
+        jfc.setAcceptAllFileFilterUsed(false);
+        int retVal = jfc.showSaveDialog(null);
+        if(retVal==JFileChooser.APPROVE_OPTION){
+            File file = jfc.getSelectedFile();
+            String filepath = file.getAbsolutePath()+".png";
+            System.out.println("Absolute Path: "+filepath);
+            try
+              {
+            	ImageIO.write(img, "png", new File(filepath));
+                System.out.println("panel saved as image");
+
+              }
+            catch (Exception e) 
+              {
+                System.out.println("panel not saved: " + e.getMessage());
+              }          
+         }         			
+    }			
+    		
+    public void loadFrame()			
+    {			
+    		
+//    	BufferedImage img;
+//    	Image backgroundImage;
+        JFileChooser jfc = new JFileChooser();
+        FileNameExtensionFilter pngFilter = new FileNameExtensionFilter("PNG Files","png");
+        jfc.addChoosableFileFilter(pngFilter);
+        jfc.setAcceptAllFileFilterUsed(false);
+        int retVal = jfc.showOpenDialog(null);
+        if(retVal==JFileChooser.APPROVE_OPTION){
+            File file = jfc.getSelectedFile();
+            String filepath = file.getAbsolutePath();
+            System.out.println("Absolute Path: "+filepath);
+            try
+              {
+            	//JPanelLoad lp = new JPanelLoad(filepath);
+            	backgroundImage = ImageIO.read(new File(filepath));
+            	repaint();
+//            	img = ImageIO.read(new File(filepath));
+//              JLabel pictureLabel = new JLabel(new ImageIcon(img));
+//              JPanel loadPanel = new JPanel();
+//              loadPanel.add(pictureLabel);
+//              repaint();
+            	
+                System.out.println("Image displayed in panel");
+
+              }
+            catch (Exception e) 
+              {
+                System.out.println("Image not displayed in panel" + e.getMessage());
+              }          
+         }   
     }
     
     /**

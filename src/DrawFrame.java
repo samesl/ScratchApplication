@@ -31,6 +31,9 @@ public class DrawFrame extends JFrame
     private JButton undo; // button to undo last drawn shape
     private JButton redo; // button to redo an undo
     private JButton clear; // button to clear panel
+    //Anjana
+    private JButton save; //button to save
+    private JButton load; //button to load
     
     private JComboBox colors; //combobox with color options
     
@@ -92,6 +95,8 @@ public class DrawFrame extends JFrame
         //create comboboxes
         colors = new JComboBox( colorOptions );
         shapes = new JComboBox( shapeOptions );
+        save = new JButton("Save"); // Anjana
+        load = new JButton("Load"); //Anjana
         
         //create checkbox
         filled = new JCheckBox( "Filled Background" );
@@ -115,6 +120,8 @@ public class DrawFrame extends JFrame
         widgetJPanel.add( colors );
         widgetJPanel.add( shapes );                 
         widgetJPanel.add( filled );
+        widgetJPanel.add( save ); // Anjana
+        widgetJPanel.add( load ); // Anjana
         // add widgetJPanel to widgetPadder
         widgetPadder.add( widgetJPanel );
         
@@ -131,6 +138,8 @@ public class DrawFrame extends JFrame
         move.addActionListener( buttonHandler ); //Ted++			
         cut.addActionListener( buttonHandler ); //Ted++			
         paste.addActionListener( buttonHandler ); //Ted++
+        save.addActionListener( buttonHandler ); //Anjana++			
+        load.addActionListener( buttonHandler ); //Anjana++
         
         //create handlers for combobox and checkbox
         ItemListenerHandler handler = new ItemListenerHandler();
@@ -170,9 +179,17 @@ public class DrawFrame extends JFrame
             else if(event.getActionCommand().equals("")){
             	panel.CutObject();
             }
-            else if(event.getActionCommand().equals("")){
+            else if(event.getActionCommand().equals("Paste")){
             	panel.PasteObject();
             }
+            //Anjana
+            else if(event.getActionCommand().equals("Save")){
+            	panel.saveFrame(panel.getWidth(),panel.getHeight());
+            }
+            else if(event.getActionCommand().equals("Load")){
+            	panel.loadFrame();
+            }
+            	       
             	                        
              
         } // end method actionPerformed
