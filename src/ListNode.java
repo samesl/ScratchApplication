@@ -1,6 +1,6 @@
 public class ListNode<T> {
     private T data;
-    private ListNode next;
+    private ListNode<T> next;
      
     // Constructor: No reference to next node provided so make it null 
     public ListNode( T nodeData ) {
@@ -8,7 +8,7 @@ public class ListNode<T> {
     }
      
     // Constructor: Set data and reference to next node.
-    public ListNode( T nodeData, ListNode nodeNext ) {
+    public ListNode( T nodeData, ListNode<T> nodeNext ) {
         data = nodeData;
         next = nodeNext;
     }
@@ -19,7 +19,7 @@ public class ListNode<T> {
     }
      
     // Accessor: Return reference to next ListNode object
-    public ListNode getNext() {
+    public ListNode<T> getNext() {
         return next;
     }
      
@@ -30,7 +30,7 @@ public class ListNode<T> {
      
      
     // Mutator: Set new reference to the next node object
-    public void setNext( ListNode newNext ) {
+    public void setNext( ListNode<T> newNext ) {
         next = newNext;
     }
 }

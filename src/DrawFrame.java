@@ -1,6 +1,5 @@
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
@@ -14,19 +13,16 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Color;
 
-/**
- * Provides the GUI and encapsulates the DrawPanel
- * It creates 3 buttons undo, redo and clear.
- * It creates 2 combobox colors and shapes.
- * It creates 1 checkbox filled to select whether shape is filled or not.
- * Has two private inner classes 
- * One for handling button events
- * Another for handling both combo box events and checkbox events
- */
+
 public class DrawFrame extends JFrame
 {
 
-    private DrawPanel panel; //draw panel for the shapes
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private DrawPanel panel; //draw panel for the shapes
     
     private JButton undo; // button to undo last drawn shape
     private JButton redo; // button to redo an undo
@@ -35,7 +31,7 @@ public class DrawFrame extends JFrame
     private JButton save; //button to save
     private JButton load; //button to load
     
-    private JComboBox colors; //combobox with color options
+    private JComboBox<Object> colors; //combobox with color options
     
     //array of strings containing color options for JComboBox colors
     private String colorOptions[]=
@@ -48,7 +44,7 @@ public class DrawFrame extends JFrame
         Color.GREEN, Color.lightGray , Color.MAGENTA , Color.ORANGE , 
     Color.PINK , Color.RED , Color.WHITE , Color.YELLOW};
     
-    private JComboBox shapes; //combobox with shape options
+    private JComboBox<Object> shapes; //combobox with shape options
     
     //array of strings containing shape options for JComboBox shapes
     private String shapeOptions[]=
@@ -97,8 +93,8 @@ public class DrawFrame extends JFrame
         copy = new JButton( "" ); // Ted++
         copy.setFont(font);
         //create comboboxes
-        colors = new JComboBox( colorOptions );
-        shapes = new JComboBox( shapeOptions );
+        colors = new JComboBox<Object>( colorOptions );
+        shapes = new JComboBox<Object>( shapeOptions );
         save = new JButton("Save"); // Anjana
         load = new JButton("Load"); //Anjana
         

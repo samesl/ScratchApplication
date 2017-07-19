@@ -4,14 +4,17 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import javax.swing.JApplet;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 	   
 public class Draw extends JPanel
                implements MouseListener, MouseMotionListener {
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private int prevX, prevY;     // The previous location of the mouse.
     
     private boolean dragging;      // This is set to true while the user is drawing.

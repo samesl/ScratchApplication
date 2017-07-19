@@ -37,7 +37,6 @@ class LinkedList<T> {
     
     // Removes a node from the front of the linked list (if there is one).
     // Returns a reference to the data in the first node, or null if the list is empty.
-    @SuppressWarnings("unchecked")
     public T removeFront() {
         T tempData;
         
@@ -45,12 +44,11 @@ class LinkedList<T> {
             return null;
         
         tempData = front.getData();
-        front = front.getNext();
+        front = (ListNode<T>) front.getNext();
         numberOfNodes--;
         return tempData;
     }
     
-    @SuppressWarnings("unchecked")
     public void removeEnd(T element) {
         ListNode<T> node=front;
         while(node.getNext() != null)
@@ -61,7 +59,6 @@ class LinkedList<T> {
     }
     
     // Return array filled with T objects
-    @SuppressWarnings("unchecked")
     public ArrayList<T> getArray() {
         
         ArrayList<T> shapeArray=new ArrayList<T>();

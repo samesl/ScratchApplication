@@ -1,23 +1,17 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class handles mouse events and uses them to draw shapes.
@@ -32,7 +26,11 @@ import java.util.List;
 
 public class DrawPanel extends JPanel
 {
-    private LinkedList<MyShape> myShapes; //dynamic stack of shapes
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private LinkedList<MyShape> myShapes; //dynamic stack of shapes
     private LinkedList<MyShape> clearedShapes; //dynamic stack of cleared shapes from undo
     
     //current Shape variables
@@ -49,7 +47,6 @@ public class DrawPanel extends JPanel
     private int copyMode;        // 1 : activated mode
     private String copyTarget;
    
-    private BufferedImage img;
     private Image backgroundImage;
     
     /**
