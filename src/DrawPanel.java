@@ -46,6 +46,8 @@ public class DrawPanel extends JPanel
     private int movingMode;        // 1 : activated mode			
     private int cutMode;        // 1 : activated mode			
     private int pasteMode;        // 1 : activated mode
+    private int copyMode;        // 1 : activated mode
+    private String copyTarget;
    
     private BufferedImage img;
     private Image backgroundImage;
@@ -183,6 +185,7 @@ public class DrawPanel extends JPanel
     	this.movingMode = 0; // moving mode off	
     	this.cutMode = 0;			
     	this.pasteMode = 0;
+    	this.copyMode = 0;
     }			
      			
     // Ted++        			
@@ -192,6 +195,7 @@ public class DrawPanel extends JPanel
     	this.movingMode = 1; 
     	this.cutMode = 0;	
     	this.pasteMode = 0;	
+    	this.copyMode = 0;
     }			
     //Ted++        			
     public void CutObject()			
@@ -200,14 +204,23 @@ public class DrawPanel extends JPanel
     	this.cutMode = 1;			
     	this.movingMode = 0;	
     	this.pasteMode = 0;	
+    	this.copyMode = 0;
     }			
     //Ted++			
     public void PasteObject()			
     {			
     	this.currentMode = 1; // select mode			
     	this.pasteMode = 1;
+    	this.movingMode = 0;
+    	this.copyMode = 0;
+    }
+  //Ted++			
+    public void CopyObject()			
+    {			
+    	this.currentMode = 1; // select mode			
+    	this.copyMode = 1;
     	this.movingMode = 0;	
-    }			
+    }
     			
     // Ted++			
     public int GetMovingMode()			
@@ -228,7 +241,12 @@ public class DrawPanel extends JPanel
     public int GetPasteMode()			
     {			
     	return this.pasteMode;			
-    }    			
+    }
+    //Ted++    			
+    public int GetCopyMode()			
+    {			
+    	return this.copyMode;			
+    }
     // Ted++			
     public void SetPasteMode(int mode)			
     {			
@@ -257,6 +275,15 @@ public class DrawPanel extends JPanel
     public int GetCurrentMode()			
     {			
     	return this.currentMode;			
+    }
+    
+    public void SetCopyTargetObject(String target)
+    {
+    	this.copyTarget = target;
+    }
+    public String GetCopyTargetObject()
+    {
+    	return this.copyTarget;
     }
     
     //Anjana
@@ -332,6 +359,7 @@ public class DrawPanel extends JPanel
          */
     	
     	private int activatedCut;	
+    	private int activatedCopy;
     	private int activateMoving;			
     	private int horizon_size, vertical_size;			
     	private int moving_distance_x=0, moving_distance_y=0;
@@ -392,6 +420,7 @@ public class DrawPanel extends JPanel
         		selected_X1 = event.getX();
         		selected_Y1 = event.getY();
         		
+        		// for moving mode
         		if( GetMovingMode() ==1 )
         		{
         			ArrayList<MyShape> shapeArray=myShapes.getArray();
@@ -445,11 +474,11 @@ public class DrawPanel extends JPanel
         		ArrayList<MyShape> shapeArray=myShapes.getArray();
         		int counter=0;
         		
-        		selected_X2 = event.getX();
-        		selected_Y2 = event.getX();
-        		
+
         		if( GetCutMode() == 1 ) // Cut mode    // Ted++
         		{
+        			selected_X2 = event.getX();
+            		selected_Y2 = event.getY();
 	                for ( counter=shapeArray.size()-1; counter>=0; counter-- )
 	                {
 	                	if( selected_X1 < shapeArray.get(counter).getX1() &&
@@ -458,7 +487,6 @@ public class DrawPanel extends JPanel
 	                			selected_Y2 > shapeArray.get(counter).getY2())
 	                	{
 
-	                		
 	                		// get the index of the selected object
 	                		SetSelectedObjectIndex(counter);
 	                		
@@ -481,11 +509,93 @@ public class DrawPanel extends JPanel
 	                		break;
 	                	}
 	                }
-        		}
+        		} // Cut Mode  
+        		
+        		if( GetCopyMode() == 1 ) // Copy mode    // Ted++
+        		{
+        			selected_X2 = event.getX();
+            		selected_Y2 = event.getY();
+        			if( this.activatedCopy == 0){
+		                for ( counter=shapeArray.size()-1; counter>=0; counter-- )
+		                {
+		                	if( selected_X1 < shapeArray.get(counter).getX1() &&
+		                			selected_Y1 < shapeArray.get(counter).getY1() &&
+		                			selected_X2 > shapeArray.get(counter).getX2() &&
+		                			selected_Y2 > shapeArray.get(counter).getY2())
+		                	{
+	
+		                    		SetSelectedObjectIndex(counter);
+		                    		// get the dimension of the selected object
+			                		this.horizon_size = shapeArray.get(counter).getX2() - shapeArray.get(counter).getX1();
+			                    	this.vertical_size = shapeArray.get(counter).getY2() - shapeArray.get(counter).getY1();
+			                    	System.out.println("attribute ;"+shapeArray.get(counter).getClass().getName());
+			                    	SetCopyTargetObject(shapeArray.get(counter).getClass().getName());
+			                    	
+			                    	break;
+		                	}
+		                }
+		                this.activatedCopy = 1;
+
+	                }else if( this.activatedCopy == 1){
+	                	System.out.print("horizon\n :"+this.horizon_size ) ;
+	                	System.out.print("vertical :"+this.vertical_size ) ;
+
+	                	
+	                	//////////////////////////////////////////////////////////////
+	                	switch (GetCopyTargetObject()) //0 for line, 1 for rect, 2 for oval
+	    	            {
+	    	                case "MyLine":
+	    	                    currentShapeObject= new MyLine( selected_X1  ,selected_Y1, 
+                						selected_X1+this.horizon_size, selected_Y1+this.vertical_size, currentShapeColor);
+	    	                    break;
+	    	                case "MyRectangle":
+	    	                    currentShapeObject= new MyRectangle( selected_X1  ,selected_Y1, 
+	    	                    						selected_X1+this.horizon_size, selected_Y1+this.vertical_size, currentShapeColor, currentShapeFilled);
+	    	                    
+	    	                    break;
+	    	                case "MyOval":
+	    	                    currentShapeObject= new MyOval( selected_X1  ,selected_Y1, 
+                						selected_X1+this.horizon_size, selected_Y1+this.vertical_size, currentShapeColor, currentShapeFilled);
+	    	                    break;          	
+	    	                
+	    	                case "MyPentagon":
+	    	                    currentShapeObject= new MyPentagon( selected_X1  ,selected_Y1, 
+                						selected_X1+this.horizon_size, selected_Y1+this.vertical_size, currentShapeColor, currentShapeFilled);
+	    	                    break;
+	    	                case "MyOpenPolygon":
+	    	                    currentShapeObject= new MyOpenPolygon( selected_X1  ,selected_Y1, 
+                						selected_X1+this.horizon_size, selected_Y1+this.vertical_size, currentShapeColor, currentShapeFilled);
+	    	                    break;
+	    	                case "MyHexagon":
+	    	                    currentShapeObject= new MyHexagon( selected_X1  ,selected_Y1, 
+                						selected_X1+this.horizon_size, selected_Y1+this.vertical_size, currentShapeColor, currentShapeFilled);
+	    	                    break;
+	    	                case "MyCircle":
+	    	                    currentShapeObject= new MyCircle( selected_X1  ,selected_Y1, 
+                						selected_X1+this.horizon_size, selected_Y1+this.vertical_size, currentShapeColor, currentShapeFilled);
+	    	                    break;  
+	    	                case "MySquare":
+	    	                    currentShapeObject= new MySquare( selected_X1  ,selected_Y1, 
+                						selected_X1+this.horizon_size, selected_Y1+this.vertical_size, currentShapeColor, currentShapeFilled);
+	    	                    break;
+	    	            }// end switch case	                	
+						
+	                	////////////////////////////////////////////////////////////
+	                	myShapes.addFront(currentShapeObject); //addFront currentShapeObject onto myShapes
+	                	
+	                	currentShapeObject=null; //sets currentShapeObject to null
+	    	            clearedShapes.makeEmpty(); //clears clearedShapes
+	    	            
+	                	
+	                	this.activatedCopy = 0;
+	                	repaint();
+	                }
+        		} // Copy Mode  
  
         		// Paste Mode
                 if( this.activatedCut==1 && GetPasteMode() == 1 ) // Ted++
                 {
+                	System.out.println("Call Pasting");
                 	shapeArray.get( GetSelectedObjectIndex() ).setX1(selected_X1);
                 	shapeArray.get( GetSelectedObjectIndex() ).setY1(selected_Y1);
                 	shapeArray.get( GetSelectedObjectIndex() ).setX2(selected_X1+this.horizon_size);
@@ -496,6 +606,7 @@ public class DrawPanel extends JPanel
                 	repaint();
                 }   
                 
+   
                 if( GetMovingMode() == 1 )
                 {
                 	this.moving_distance_x=0;

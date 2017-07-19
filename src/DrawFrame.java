@@ -60,6 +60,7 @@ public class DrawFrame extends JFrame
     private JButton move;                // Ted++
     private JButton cut;                // Ted++
     private JButton paste;                // Ted++
+    private JButton copy;                // Ted++
 
     
     private JPanel widgetJPanel; //holds the widgets: buttons, comboboxes and checkbox
@@ -91,7 +92,10 @@ public class DrawFrame extends JFrame
         cut = new JButton( "");         // Ted++
         cut.setFont(font);
         paste = new JButton( "");         // Ted++
+        //paste = new JButton( "Paste");         // Ted++
         paste.setFont(font2);
+        copy = new JButton( "" ); // Ted++
+        copy.setFont(font);
         //create comboboxes
         colors = new JComboBox( colorOptions );
         shapes = new JComboBox( shapeOptions );
@@ -117,6 +121,7 @@ public class DrawFrame extends JFrame
         widgetJPanel.add( move ); // Ted++
         widgetJPanel.add( cut ); // Ted++
         widgetJPanel.add( paste ); // Ted++
+        widgetJPanel.add( copy ); // Ted++
         widgetJPanel.add( colors );
         widgetJPanel.add( shapes );                 
         widgetJPanel.add( filled );
@@ -138,6 +143,7 @@ public class DrawFrame extends JFrame
         move.addActionListener( buttonHandler ); //Ted++			
         cut.addActionListener( buttonHandler ); //Ted++			
         paste.addActionListener( buttonHandler ); //Ted++
+        copy.addActionListener( buttonHandler ); //Ted++
         save.addActionListener( buttonHandler ); //Anjana++			
         load.addActionListener( buttonHandler ); //Anjana++
         
@@ -179,8 +185,11 @@ public class DrawFrame extends JFrame
             else if(event.getActionCommand().equals("")){
             	panel.CutObject();
             }
-            else if(event.getActionCommand().equals("Paste")){
+            else if(event.getActionCommand().equals("")){
             	panel.PasteObject();
+            }
+            else if(event.getActionCommand().equals("")){
+            	panel.CopyObject();
             }
             //Anjana
             else if(event.getActionCommand().equals("Save")){
