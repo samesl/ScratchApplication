@@ -52,7 +52,11 @@ public class DrawFrame extends JFrame
     
     private JCheckBox filled; //checkbox to select whether shape is filled or not
         
-    private JButton select;
+    private JButton drawing;        // Ted++
+    private JButton move;                // Ted++
+    private JButton cut;                // Ted++
+    private JButton paste;                // Ted++
+
     
     private JPanel widgetJPanel; //holds the widgets: buttons, comboboxes and checkbox
     private JPanel widgetPadder; //encapsulates widgetJPanel and adds padding around the edges 
@@ -76,7 +80,10 @@ public class DrawFrame extends JFrame
         undo = new JButton( "Undo" );
         redo = new JButton( "Redo" );
         clear = new JButton( "Clear" );
-        select = new JButton( "Select ");
+        drawing = new JButton( "Drawing"); // Ted++
+        move = new JButton( "Move");         // Ted++
+        cut = new JButton( "Cut");         // Ted++
+        paste = new JButton( "Paste");         // Ted++
         //create comboboxes
         colors = new JComboBox( colorOptions );
         shapes = new JComboBox( shapeOptions );
@@ -96,7 +103,10 @@ public class DrawFrame extends JFrame
         widgetJPanel.add( undo );
         widgetJPanel.add( redo );
         widgetJPanel.add( clear );
-        widgetJPanel.add( select );
+        widgetJPanel.add( drawing ); // Ted++
+        widgetJPanel.add( move ); // Ted++
+        widgetJPanel.add( cut ); // Ted++
+        widgetJPanel.add( paste ); // Ted++
         widgetJPanel.add( colors );
         widgetJPanel.add( shapes );                 
         widgetJPanel.add( filled );
@@ -112,6 +122,10 @@ public class DrawFrame extends JFrame
         undo.addActionListener( buttonHandler );
         redo.addActionListener( buttonHandler );
         clear.addActionListener( buttonHandler );
+        drawing.addActionListener( buttonHandler ); //Ted++			
+        move.addActionListener( buttonHandler ); //Ted++			
+        cut.addActionListener( buttonHandler ); //Ted++			
+        paste.addActionListener( buttonHandler ); //Ted++
         
         //create handlers for combobox and checkbox
         ItemListenerHandler handler = new ItemListenerHandler();
@@ -142,6 +156,19 @@ public class DrawFrame extends JFrame
             else if (event.getActionCommand().equals("Clear")){
                 panel.clearDrawing();
             }
+            else if(event.getActionCommand().equals("Drawing")){
+            	panel.drawingObject();
+            }
+            else if(event.getActionCommand().equals("Move")){
+            	panel.MoveObject();
+            }
+            else if(event.getActionCommand().equals("Cut")){
+            	panel.CutObject();
+            }
+            else if(event.getActionCommand().equals("Paste")){
+            	panel.PasteObject();
+            }
+            	                        
              
         } // end method actionPerformed
     } // end private inner class ButtonHandler
@@ -179,5 +206,6 @@ public class DrawFrame extends JFrame
             
         } // end method itemStateChanged
     }
+    
     
 } // end class DrawFrame
