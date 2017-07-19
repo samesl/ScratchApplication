@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Color;
 
 /**
@@ -24,7 +25,7 @@ import java.awt.Color;
  */
 public class DrawFrame extends JFrame
 {
-    private JLabel stausLabel; //label display mouse coordinates
+
     private DrawPanel panel; //draw panel for the shapes
     
     private JButton undo; // button to undo last drawn shape
@@ -64,36 +65,40 @@ public class DrawFrame extends JFrame
     /**
      * This constructor sets the name of the JFrame.
      * It also creates a DrawPanel object that extends JPanel for drawing the shapes and contains
-     * a statuslabel for mouse position.
      * Initializes widgets for buttons, comboboxes and checkbox
      * It also adds event handlers for the widgets
      */
     public DrawFrame()
     {
         super("Scratch Application - HCI "); //sets the name of DrawFrame
+        Font font = new Font("Wingdings", Font.BOLD,24);
+        Font font2 = new Font("Webdings", Font.BOLD,24);
         
-        JLabel statusLabel = new JLabel( "" ); //create JLabel object to pass into DrawPanel
         
-        panel = new DrawPanel(statusLabel); //create draw panel and pass in JLabel
+        panel = new DrawPanel(); //create draw panel and pass in JLabel
         
         //create buttons
-        undo = new JButton( "Undo" );
-        redo = new JButton( "Redo" );
+        undo = new JButton( "" );
+        undo.setFont(font); undo.setForeground (Color.red);
+        redo = new JButton( "" );
+        redo.setFont(font); redo.setForeground (Color.green);
         clear = new JButton( "Clear" );
         drawing = new JButton( "Drawing"); // Ted++
         move = new JButton( "Move");         // Ted++
-        cut = new JButton( "Cut");         // Ted++
-        paste = new JButton( "Paste");         // Ted++
+        cut = new JButton( "");         // Ted++
+        cut.setFont(font);
+        paste = new JButton( "");         // Ted++
+        paste.setFont(font2);
         //create comboboxes
         colors = new JComboBox( colorOptions );
         shapes = new JComboBox( shapeOptions );
         
         //create checkbox
-        filled = new JCheckBox( "Filled" );
+        filled = new JCheckBox( "Filled Background" );
         
         //JPanel object, widgetJPanel, with grid layout for widgets
         widgetJPanel = new JPanel();
-        widgetJPanel.setLayout( new GridLayout( 1, 6, 10, 10 ) ); //sets padding between widgets in gridlayout
+        widgetJPanel.setLayout( new GridLayout( 14, 1) ); //sets padding between widgets in gridlayout
         
         //JPanel object, widgetPadder, with flowlayout to encapsulate and pad the widgetJPanel
         widgetPadder = new JPanel();
@@ -114,7 +119,7 @@ public class DrawFrame extends JFrame
         widgetPadder.add( widgetJPanel );
         
         //add widgetPadder and panel to JFrame
-        add( widgetPadder, BorderLayout.NORTH);
+        add( widgetPadder, BorderLayout.WEST);
         add( panel, BorderLayout.CENTER);
         
         // create new ButtonHandler for button event handling
@@ -134,7 +139,7 @@ public class DrawFrame extends JFrame
         filled.addItemListener( handler );
         
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        setSize( 900, 500 );
+        setSize( 900, 800 );
         setVisible( true );
         
     } // end DrawFrame constructor
@@ -147,10 +152,10 @@ public class DrawFrame extends JFrame
         // handles button events
         public void actionPerformed( ActionEvent event )
         {
-            if (event.getActionCommand().equals("Undo")){
+            if (event.getActionCommand().equals("")){
                 panel.clearLastShape();
             }
-            else if (event.getActionCommand().equals("Redo")){
+            else if (event.getActionCommand().equals("")){
                 panel.redoLastShape();
             }
             else if (event.getActionCommand().equals("Clear")){
@@ -162,10 +167,10 @@ public class DrawFrame extends JFrame
             else if(event.getActionCommand().equals("Move")){
             	panel.MoveObject();
             }
-            else if(event.getActionCommand().equals("Cut")){
+            else if(event.getActionCommand().equals("")){
             	panel.CutObject();
             }
-            else if(event.getActionCommand().equals("Paste")){
+            else if(event.getActionCommand().equals("")){
             	panel.PasteObject();
             }
             	                        

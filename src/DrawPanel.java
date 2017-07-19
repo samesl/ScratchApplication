@@ -19,7 +19,6 @@ import java.util.List;
  * It contains a dynamic stack myShapes which is the shapes drawn on the panel.
  * It contains a dynamic stack clearedShape which is the shapes cleared from the panel.
  * It has many variables for the current shape [type, variable to store shape object, color, fill].
- * It contains a JLabel called statusLabel for the mouse coordinates
  * It has mutator methods for currentShapeType, currentShapeColor and currentShapeFilled.
  * It has methods for undoing, redoing and clearing shapes.
  * It has a private inner class MouseHandler which extends MouseAdapter and 
@@ -43,12 +42,10 @@ public class DrawPanel extends JPanel
     private int cutMode;        // 1 : activated mode			
     private int pasteMode;        // 1 : activated mode
     
-    JLabel statusLabel; //status label for mouse coordinates
     
     /**
      * This constructor initializes the dynamic stack for myShapes and clearedShapes.
      * It sets the current shape variables to default values.
-     * It initalizes statusLabel from JLabel passed in.
      * Sets up the panel and adds event handling for mouse events.
      * 
      */
@@ -60,7 +57,7 @@ public class DrawPanel extends JPanel
     int selected_X1, selected_Y1, selected_X2, selected_Y2;
 
 
-    public DrawPanel(JLabel statusLabel){
+    public DrawPanel(){
         
         myShapes = new LinkedList<MyShape>(); //initialize myShapes dynamic stack
         clearedShapes = new LinkedList<MyShape>(); //initialize clearedShapes dynamic stack
@@ -71,11 +68,9 @@ public class DrawPanel extends JPanel
         currentShapeColor=Color.BLACK;
         currentShapeFilled=false;
         
-        this.statusLabel = statusLabel; //Initialize statusLabel
         
         setLayout(new BorderLayout()); //sets layout to border layout; default is flow layout
         setBackground( Color.WHITE ); //sets background color of panel to white
-        add( statusLabel, BorderLayout.SOUTH );  //adds a statuslabel to the south border
         
         // event handling for mouse and mouse motion events
         MouseHandler handler = new MouseHandler();                                    
@@ -383,7 +378,6 @@ public class DrawPanel extends JPanel
         		
         		selected_X2 = event.getX();
         		selected_Y2 = event.getX();
-        		//System.out.println("X1:"+selected_X1 + ",Y1:"+selected_Y1+ "X2:"+selected_Y2+ ",Y2:"+selected_Y2);
         		
         		if( GetCutMode() == 1 ) // Cut mode    // Ted++
         		{
@@ -394,8 +388,7 @@ public class DrawPanel extends JPanel
 	                			selected_X2 > shapeArray.get(counter).getX2() &&
 	                			selected_Y2 > shapeArray.get(counter).getY2())
 	                	{
-	                		//System.out.println("X1:"+shapeArray.get(counter).getX1() + ",Y1:"+shapeArray.get(counter).getY1()+ "X2:"+shapeArray.get(counter).getX2()+ ",Y2:"+shapeArray.get(counter).getY2());
-	                		//System.out.println("index:"+counter);
+
 	                		
 	                		// get the index of the selected object
 	                		SetSelectedObjectIndex(counter);
@@ -446,16 +439,15 @@ public class DrawPanel extends JPanel
         } // end method mouseReleased
         
         /**
-         * This method gets the mouse pos when it is moving and sets it to statusLabel.
+         * This method gets the mouse pos when it is moving
          */
         public void mouseMoved( MouseEvent event )
         {
-            statusLabel.setText(String.format("Mouse Coordinates X: %d Y: %d",event.getX(),event.getY()));
+
         } // end method mouseMoved
         
         /**
          * This method gets the mouse position when it is dragging and sets x2 & y2 of current shape to the mouse pos
-         * It also gets the mouse position when it is dragging and sets it to statusLabel
          * Then it calls repaint() to redraw the panel
          */
         public void mouseDragged( MouseEvent event )
@@ -483,9 +475,7 @@ public class DrawPanel extends JPanel
 			        lasty = currentShapeObject.getY2(); // update while free-handled drawing
 			        	        
 		        }		        
-		        //System.out.println(currentShapeObject.getX2() +","+currentShapeObject.getY2()+","+currentShapeObject.getX2()+","+currentShapeObject.getY2());
-	            
-	            //repaint();
+
         	}else if( mode == 1 ) // select mode
         	{	
         		if( GetMovingMode() == 1 )
@@ -495,11 +485,8 @@ public class DrawPanel extends JPanel
         			
         			if( this.activateMoving == 1 )
         			{
-        				System.out.println("moving");
         				moving_distance_x = lastx-event.getX();
         				moving_distance_y = lasty-event.getY();
-        				//System.out.println("x:"+event.getX()+",y:"+event.getY());
-        				//System.out.println("x:"+moving_distance_x+",y:"+moving_distance_y);
         				int new_x1 = shapeArray.get( GetSelectedObjectIndex() ).getX1()-moving_distance_x;
         				int new_y1 = shapeArray.get( GetSelectedObjectIndex() ).getY1()-moving_distance_y;
         				int new_x2 = shapeArray.get( GetSelectedObjectIndex() ).getX2()-moving_distance_x;
@@ -509,7 +496,6 @@ public class DrawPanel extends JPanel
 	                	shapeArray.get( GetSelectedObjectIndex() ).setY1(new_y1);
 	                	shapeArray.get( GetSelectedObjectIndex() ).setX2(new_x2);
 	                	shapeArray.get( GetSelectedObjectIndex() ).setY2(new_y2);
-	                	System.out.println("X1:"+new_x1 + ",Y1:"+new_y1 + ",X2:"+new_x2 + ",Y2:"+new_y2);
 	                	repaint();
 	                	
 	                	lastx = event.getX()-moving_distance_x; // update while moving
@@ -520,9 +506,7 @@ public class DrawPanel extends JPanel
         		
         	}
         	p.moveTo(event.getX(), event.getY());
-          //sets statusLabel to current mouse position
-          statusLabel.setText(String.format("Dragging Mouse Coordinates X: %d Y: %d [%d, %d]",event.getX(),event.getY(), lastx, lasty));
-            
+     
         } // end method mouseDragged
         
     }// end MouseHandler
